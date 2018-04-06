@@ -1,17 +1,19 @@
-runtime: python27
-api_version: 1
-threadsafe: true
+
+runtime: nodejs
+env: flex
+
+
+
+manual_scaling:
+  instances: 1
+
+#automatic_scaling:
+#  min_num_instances: 1
+#  max_num_instances: 10
+#  cool_down_period_sec: 120 # default value
+#  cpu_utilization:
+#    target_utilization: 0.5
 
 skip_files:
 - ^(?!dist)  # Skip any files not in the dist folder
 
-handlers:
-# Any other requests are routed to index.html for angular to handle so we don't need hash URLs
-- url: .*
-  secure: always
-  redirect_http_response_code: 301
-  static_files: dist/index.html
-  upload: dist/index\.html
-  http_headers:
-    Strict-Transport-Security: max-age=31536000; includeSubDomains
-    X-Frame-Options: DENY
