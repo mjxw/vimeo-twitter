@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
 
 const appRoutes: Routes = [
-  {path: '/', redirectTo: 'login', pathMatch: 'full'},  
+  {path: '', redirectTo: 'login', pathMatch: 'full'},  
   {path: 'login', component: LandingComponent}
 ]
 
