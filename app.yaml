@@ -1,30 +1,39 @@
-# [START runtime]
+service: stage
 runtime: python27
-threadsafe: yes
-# [END runtime]
+api_version: 1
+threadsafe: true
+
+skip_files:
+- ^(?!dist)  # Skip any files not in the dist folder
 
 handlers:
-
-- url: /(.*\.(js|map|css|png))$
+# Routing for bundles to serve directly
+- url: /((?:inline|main|polyfills|styles|vendor)\.[a-z0-9]+\.bundle\.js)
+  secure: always
+  redirect_http_response_code: 301
   static_files: dist/\1
-  upload: dist/(.*)
+  upload: dist/.*
 
-- url: .*
+# Routing for a prod styles.bundle.css to serve directly
+- url: /(styles\.[a-z0-9]+\.bundle\.css)
+  secure: always
+  redirect_http_response_code: 301
+  static_files: dist/\1
+  upload: dist/.*
+
+# Routing for typedoc, assets and favicon.ico to serve directly
+- url: /((?:assets|docs)/.*|favicon\.ico)
+  secure: always
+  redirect_http_response_code: 301
+  static_files: dist/\1
+  upload: dist/.*
+
+# Any other requests are routed to index.html for angular to handle so we don't need hash URLs
+- url: /.*
+  secure: always
+  redirect_http_response_code: 301
   static_files: dist/index.html
-  upload: dist/index.html
-
-# Temporary setting to keep gcloud from uploading not required files for deployment
-skip_files:
-- ^node_modules$
-- ^app\.yaml
-- ^README\..*
-- \.gitignore
-- ^\.git$
-- ^grunt\.js
-- ^src$
-- ^e2e$
-- \.editorconfig
-- ^karma\.config\.js
-- ^package\.json
-- ^protractor\.conf\.js
-- ^tslint\.json
+  upload: dist/index\.html
+  http_headers:
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    X-Frame-Options: DENY
