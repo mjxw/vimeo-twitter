@@ -1,53 +1,45 @@
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 const mysql = require('mysql');
 const session = require('express-session');
-const MemcachedStore = require('connect-memcached')(session);
 const passport = require('passport');
 const app = express();
 
+
 // Create link to Angular build directory
 const distDir = __dirname + '/dist/';
-
-const ENV = app.get('env');
-const MEMCACHE_URL = 'redis-19395.c8.us-east-1-4.ec2.cloud.redislabs.com:19395';
-
-// Connect to heroku mySQL (clearDB)
-const pool = mysql.createPool({
-  host     : 'us-cdbr-iron-east-05.cleardb.net',
-  user     : 'b1a3380ee580d8',
-  password : '26ce75fe',
-  database : 'heroku_7fa44debcf8c49f'
-});
-
-// Configure the session and session storage
+const viewDir = __dirname + '/views';
+ 
+// Configure the session
 const sessionConfig = {
-  resave: false,
-  saveUninitialized: false,
-  secret: 'keyboardcat',
-  signed: true
+	secret: 'keyboard cat', 
+	cookie: {maxAge: 86400000},	//24hrs
+	resave: false,
+  saveUninitialized: false
 };
-
-if(ENV === 'production' && MEMCACHE_URL) {
-  sessionConfig.store = new MemcachedStore({
-    hosts:[MEMCACHE_URL]
-  });
-}
 
 app.use(session(sessionConfig));
 app.use(bodyParser.json());
 app.use(express.static(distDir));
-
-// OAuth2
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(require('./lib/oauth2').router);
+app.set('views', viewDir);
+app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
+
+
+
+app.get('/', function(req, res) {
+  res.render('login');
+});
 
 // Send all other requests to the Angular app
-app.get('/login', (req, res) => {
+app.get('/home', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
+
 
 // Basic 404 handler
 app.use((req, res) => {
