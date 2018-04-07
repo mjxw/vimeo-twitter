@@ -19,9 +19,29 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "assets/css/main.css",
+        "assets/css/util.css",
+        "assets/vendor/animate/animate.css",
+        "assets/vendor/animsition/css/animsition.css",        
+        "assets/vendor/css-hamburgers/hamburgers.css",     
+        "assets/vendor/daterangepicker/daterangepicker.css", 
+        "assets/vendor/perfect-scrollbar/perfect-scrollbar.css",     
+        "assets/vendor/select2/select2.css",
+        "assets/fonts/font-awesome-4.7.0/css/font-awesome.css",
+        "assets/fonts/iconic/css/material-design-iconic-font.css"    
+
       ],
-      "scripts": [],
+      "scripts": [
+        "assets/js/main.js",
+        "assets/vendor/animsition/js/animsition.js",  
+        "assets/vendor/countdowntime/countdowntime.js",   
+        "assets/vendor/daterangepicker/daterangepicker.js",    
+        "assets/vendor/daterangepicker/moment.js",        
+        "assets/vendor/jquery/jquery-3.2.1.min.js",   
+        "assets/vendor/perfect-scrollbar/perfect-scrollbar.min.js",   
+        "assets/vendor/select2/select2.js"      
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
