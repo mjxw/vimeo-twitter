@@ -32,11 +32,13 @@ app.use(express.static(__dirname + '/public'));
 
 
 app.get('/', function(req, res) {
+  console.log("login page");
   res.render('login');
 });
 
 // Send all other requests to the Angular app
 app.get('/home', (req, res) => {
+  console.log("redirecting routing to angular");
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
