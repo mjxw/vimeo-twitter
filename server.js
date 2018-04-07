@@ -44,11 +44,31 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(require('./lib/oauth2').router);
 
+// Send all other requests to the Angular app
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
+
+// Basic 404 handler
+app.use((req, res) => {
+  res.status(404).send('Not Found');
+});
+
+// Basic error handler
+app.use((err, req, res, next) => {
+  /* jshint unused:false */
+  console.error(err);
+  // If our routes specified a specific response, then send that. Otherwise,
+  // send a generic message so as not to leak anything.
+  res.status(500).send(err.response || 'Something broke!');
+});
+
 // Initialize the app
 const server = app.listen(process.env.PORT || 8080, function () {
   const port = server.address().port;
   console.log('App now running on port', port);
 });
+
 
 
 
