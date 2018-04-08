@@ -5,6 +5,11 @@ const path = require('path');
 const mysql = require('mysql');
 const session = require('express-session');
 const passport = require('passport');
+const passportSetup = require('./config/passport-setup');
+const authRoutes = require('./routes/auth-routes');
+const mongoose = require('mongoose');
+const keys = require('./config/keys');
+
 const app = express();
 
 const distDir = __dirname + '/dist/';
@@ -27,6 +32,12 @@ app.set('views', viewDir);
 app.set('view engine', 'ejs');
 app.use(express.static(publicDir));
 app.use(express.static(distDir));
+app.use('/auth', authRoutes);
+
+//connect to mongodb 
+mongoose.connect(keys.mongodb.dbURI, () => {
+  console.log('connected to mongodb');
+});
 
 app.get('/', function(req, res) {
   console.log("login page");
@@ -34,10 +45,10 @@ app.get('/', function(req, res) {
 });
 
 // Send all other requests to the Angular app
-app.get('/home', (req, res) => {
-  console.log("redirecting routing to angular");
-  res.sendFile(path.join(__dirname, '/dist/index.html'));
-});
+// app.get('/home', (req, res) => {
+//   console.log("redirecting routing to angular");
+//   res.sendFile(path.join(__dirname, '/src/index.html'));
+// });
 
 // Basic 404 handler
 app.use((req, res) => {
