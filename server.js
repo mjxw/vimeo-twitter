@@ -7,10 +7,9 @@ const session = require('express-session');
 const passport = require('passport');
 const app = express();
 
-
-// Create link to Angular build directory
 const distDir = __dirname + '/dist/';
 const viewDir = __dirname + '/views';
+const publicDir = __dirname + '/public';
  
 // Configure the session
 const sessionConfig = {
@@ -22,14 +21,12 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(bodyParser.json());
-app.use(express.static(distDir));
 app.use(passport.initialize());
 app.use(passport.session());
 app.set('views', viewDir);
 app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/public'));
-
-
+app.use(express.static(publicDir));
+app.use(express.static(distDir));
 
 app.get('/', function(req, res) {
   console.log("login page");
@@ -37,11 +34,10 @@ app.get('/', function(req, res) {
 });
 
 // Send all other requests to the Angular app
-app.post('/home', (req, res) => {
+app.get('/home', (req, res) => {
   console.log("redirecting routing to angular");
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
+  res.sendFile(path.join(__dirname, '/dist/index.html'));
 });
-
 
 // Basic 404 handler
 app.use((req, res) => {
@@ -58,7 +54,7 @@ app.use((err, req, res, next) => {
 });
 
 // Initialize the app
-const server = app.listen(process.env.PORT || 8080, function () {
+const server = app.listen(process.env.PORT || 4200, function () {
   const port = server.address().port;
   console.log('App now running on port', port);
 });
