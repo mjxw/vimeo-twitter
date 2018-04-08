@@ -37,7 +37,7 @@ app.get('/', function(req, res) {
 });
 
 // Send all other requests to the Angular app
-app.get('/home', (req, res) => {
+app.post('/home', (req, res) => {
   console.log("redirecting routing to angular");
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
