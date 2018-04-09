@@ -9,7 +9,8 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "assets/bg-01.jpg"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -20,27 +21,27 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-        "assets/css/main.css",
-        "assets/css/util.css",
+        "assets/vendor/bootstrap/css/bootstrap.css",
+        "assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css",  
+        "assets/fonts/iconic/css/material-design-iconic-font.min.css",
         "assets/vendor/animate/animate.css",
-        "assets/vendor/animsition/css/animsition.css",        
-        "assets/vendor/css-hamburgers/hamburgers.css",     
-        "assets/vendor/daterangepicker/daterangepicker.css", 
-        "assets/vendor/perfect-scrollbar/perfect-scrollbar.css",     
-        "assets/vendor/select2/select2.css",
-        "assets/fonts/font-awesome-4.7.0/css/font-awesome.css",
-        "assets/fonts/iconic/css/material-design-iconic-font.css"    
-
+        "assets/vendor/css-hamburgers/hamburgers.min.css",
+        "assets/vendor/animsition/css/animsition.min.css",
+        "assets/vendor/select2/select2.min.css",
+        "assets/vendor/daterangepicker/daterangepicker.css",
+        "assets/css/util.css",
+        "assets/css/main.css"
       ],
       "scripts": [
-        "assets/js/main.js",
-        "assets/vendor/animsition/js/animsition.js",  
-        "assets/vendor/countdowntime/countdowntime.js",   
-        "assets/vendor/daterangepicker/daterangepicker.js",    
-        "assets/vendor/daterangepicker/moment.js",        
-        "assets/vendor/jquery/jquery-3.2.1.min.js",   
-        "assets/vendor/perfect-scrollbar/perfect-scrollbar.min.js",   
-        "assets/vendor/select2/select2.js"      
+        "assets/vendor/jquery/jquery-3.2.1.min.js",
+        "assets/vendor/animsition/js/animsition.min.js",  
+        "assets/vendor/bootstrap/js/popper.js",   
+        "assets/vendor/bootstrap/js/bootstrap.min.js",    
+        "assets/vendor/select2/select2.min.js",        
+        "assets/vendor/daterangepicker/moment.min.js",   
+        "assets/vendor/daterangepicker/daterangepicker.js",   
+        "assets/vendor/countdowntime/countdowntime.js",  
+        "assets/js/main.js"      
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

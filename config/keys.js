@@ -7,5 +7,9 @@ module.exports = {
     },
     mongodb: {
         dbURI: 'mongodb://test:test@ds239009.mlab.com:39009/vimeo-twitter'
+    },
+    session: {
+        cookieKey:'vimeo-twitter-key'
     }
+
 };

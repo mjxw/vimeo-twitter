@@ -2,13 +2,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const mysql = require('mysql');
-const session = require('express-session');
 const passport = require('passport');
 const passportSetup = require('./config/passport-setup');
 const authRoutes = require('./routes/auth-routes');
+const postLoginRoutes = require('./routes/post-login-routes');
+
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
+const cookieSession = require('cookie-session');
 
 const app = express();
 
@@ -16,23 +17,21 @@ const distDir = __dirname + '/dist/';
 const viewDir = __dirname + '/views';
 const publicDir = __dirname + '/public';
  
-// Configure the session
-const sessionConfig = {
-	secret: 'keyboard cat', 
-	cookie: {maxAge: 86400000},	//24hrs
-	resave: false,
-  saveUninitialized: false
-};
-
-app.use(session(sessionConfig));
 app.use(bodyParser.json());
-app.use(passport.initialize());
-app.use(passport.session());
 app.set('views', viewDir);
 app.set('view engine', 'ejs');
 app.use(express.static(publicDir));
 app.use(express.static(distDir));
+
+app.use(cookieSession({
+  maxAge: 24 * 60 * 60 * 1000, // 24hrs
+  keys: [keys.session.cookieKey]
+}));
+// initialize passport 
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/auth', authRoutes);
+app.use('/post-login', postLoginRoutes);
 
 //connect to mongodb 
 mongoose.connect(keys.mongodb.dbURI, () => {
@@ -44,11 +43,6 @@ app.get('/', function(req, res) {
   res.render('login');
 });
 
-// Send all other requests to the Angular app
-// app.get('/home', (req, res) => {
-//   console.log("redirecting routing to angular");
-//   res.sendFile(path.join(__dirname, '/src/index.html'));
-// });
 
 // Basic 404 handler
 app.use((req, res) => {
@@ -70,13 +64,13 @@ const server = app.listen(process.env.PORT || 4200, function () {
   console.log('App now running on port', port);
 });
 
-
-
-
-
 // Generic error handler used by all endpoints
 function handleError(res, reason, message, code) {
   console.log('ERROR: ' + reason);
   res.status(code || 500).json({'error': message});
 }
+
+// app.get('*', function (req, res) {
+//   res.sendFile(path.join(__dirname, '/dist/index.html'));
+// });
 

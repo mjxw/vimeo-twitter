@@ -1,6 +1,8 @@
 // Create instance of Router
 const router = require('express').Router(); 
 const passport = require('passport');
+const path = require('path');
+
 
 // Auth with google 
 router.get('/google', passport.authenticate('google', {
@@ -14,7 +16,7 @@ router.get('/logout', (req, res) => {
 
 // Callback route for google to redirect to
 router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-    res.send('you reached callback URI');
+    res.redirect('/post-login/')
 });
 
 module.exports = router;
