@@ -39,7 +39,6 @@ mongoose.connect(keys.mongodb.dbURI, () => {
 });
 
 app.get('/', function(req, res) {
-  console.log("login page");
   res.render('login');
 });
 
